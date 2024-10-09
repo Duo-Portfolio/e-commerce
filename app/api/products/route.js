@@ -29,8 +29,8 @@ export async function GET() {
         // Parse the JSON data
         const products = JSON.parse(fileData);
 
-        images.forEach((img, i) => products.products[i].images[0] = img);
-        await fs.writeFile(filePath, JSON.stringify(products, null, 2), 'utf-8')
+        //images.forEach((img, i) => products.products[i].images[0] = img);
+        //await fs.writeFile(filePath, JSON.stringify(products, null, 2), 'utf-8')
 
         // If no products are found, send a 404 response
         if (products.length === 0) 
