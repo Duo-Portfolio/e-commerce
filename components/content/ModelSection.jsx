@@ -23,16 +23,34 @@ const ModelSection = () => {
 
   return (
     <div
-      className="flex h-[500px] relative overflow-hidden bg-[rgba(46,36,90,0.2)]"
+      className="flex h-[600px] relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
+      {/* Background with gradient and animation */}
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 opacity-60 animate-gradient-x"></div>
+
       {/* Left Side for 3D Model */}
-      <div className="flex-1 flex justify-center items-end">
-        <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+      <div className="flex-1 flex justify-center items-end relative">
+        {/* Floating Glow Animation around the model */}
+        <motion.div
+          className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 opacity-90 blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+          style={{ zIndex: -1 }}
+        />
+        <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
           <ambientLight intensity={0.5} />
           <pointLight position={[1, 1, 1]} />
           <Model
-            url="/Dayo.glb"
+            url="/scooter.glb"
             position={[0, -2, 0]} // Lower the model
             scale={[2, 2, 2]} // Scale as needed
           />
@@ -40,47 +58,54 @@ const ModelSection = () => {
         </Canvas>
       </div>
 
-      {/* Right Side for Other Content */}
-      <div className="flex-1 flex flex-col justify-center p-4 text-white">
-        <motion.h1
-          className="text-3xl font-bold glow"
-          initial={{ opacity: 0, y: -20 }}
+      {/* Right Side for Sale Information */}
+      <div className="flex-1 flex flex-col justify-center items-center p-4 text-white space-y-6 z-10">
+        <motion.div
+          className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400 glow-text"
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Explore Our Galaxy
-        </motion.h1>
+          🚀 Sci-Fi Scooter Sale!
+        </motion.div>
+        <motion.div
+          className="text-7xl font-extrabold text-red-500 glow-text"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          50% OFF!
+        </motion.div>
         <motion.p
-          className="mt-4 text-lg"
-          initial={{ opacity: 0, y: -20 }}
+          className="text-lg text-gray-300"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
         >
-          Discover a universe of amazing products that redefine the boundaries
-          of technology and style.
+          Unlock intergalactic adventures with the latest scooter tech.
         </motion.p>
-        <motion.ul
-          className="mt-6"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-        >
-          <li className="mt-2">✨ Unique Designs</li>
-          <li className="mt-2">🛸 Advanced Technology</li>
-          <li className="mt-2">🌌 Intergalactic Shipping</li>
-        </motion.ul>
         <motion.button
-          className="mt-4 px-6 py-2 bg-purple-700 hover:bg-purple-600 rounded-full transition duration-300"
+          className="mt-6 px-8 py-3 bg-purple-700 hover:bg-purple-600 text-white rounded-full transition duration-300 shadow-lg hover:shadow-purple-500/50"
           initial={{ scale: 1 }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.05, backgroundColor: "#6C63FF" }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          Shop Now
+          Get Your Ride Now
         </motion.button>
+
+        {/* Futuristic floating sale tag */}
+        <motion.div
+          className="absolute top-10 right-10 px-6 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-lg font-bold text-white rounded-full shadow-lg glow-text"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          🚀 50% Off - Limited Time!
+        </motion.div>
       </div>
 
-      {/* Additional Floating Animation for the Model */}
+      {/* Floating Star Animation */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full"
         initial={{ scale: 1 }}
@@ -91,12 +116,15 @@ const ModelSection = () => {
           ease: "easeInOut",
         }}
         style={{ pointerEvents: "none" }} // Prevent interaction
-      />
+      >
+        <div className="w-full h-full bg-black bg-opacity-40">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-[url('/twinkling-stars.gif')] bg-cover opacity-30"></div>
+        </div>
+      </motion.div>
     </div>
   );
 };
 
-// Set the display name for the ModelSection component
 ModelSection.displayName = "ModelSection";
 
 export default ModelSection;
