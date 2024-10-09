@@ -14,7 +14,7 @@ const Products = () => {
 
   const { data, isLoading, error } = useFetch(
     "GET",
-    "https://dummyjson.com/products",
+    "/api/products",
     "products"
   );
 
@@ -96,12 +96,12 @@ const Products = () => {
                 Sale
               </div>
             )}
-            <div className="relative h-48 w-full mb-32">
+            <div className="relative h-48 w-full mb-36 p-2">
               <Image
                 src={product.images[0]}
                 alt={product.title}
                 width={500}
-                height={300}
+                height={500}
                 layout="responsive"
                 loading="lazy"
               />

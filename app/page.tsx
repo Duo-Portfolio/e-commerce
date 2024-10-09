@@ -6,6 +6,7 @@ import NavBar from "@/components/navbar/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Products from "@/components/products/Products";
 import ModelSection from "@/components/content/ModelSection"; // Import your new ModelSection component
+import FeaturedSpaceMissions from "@/components/content/FeaturedCollection";
 
 export default function Home() {
   const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ export default function Home() {
       
       {/* Use the new ModelSection component */}
       <ModelSection />
+      <FeaturedSpaceMissions/>
       
     </QueryClientProvider>
   );

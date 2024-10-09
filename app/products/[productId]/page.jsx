@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // Import useParams from next/navigation
 import axios from "axios";
 import Image from "next/image";
-import ARSection from "@/components/three-d-model/ArSection";
 
 const ProductDetails = () => {
   const { productId } = useParams(); // Use useParams to get productId from the URL
@@ -14,7 +13,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (!productId) return; // Exit if productId is not available yet
 
-    const url = `https://dummyjson.com/products/${productId}`; // Correct URL to match the API
+    const url = `/api/products/${productId}`; // Correct URL to match the API
 
     // Fetch product data using axios
     axios
@@ -58,7 +57,6 @@ const ProductDetails = () => {
           {/* Add any other product details you want to display */}
         </>
       )}
-      <ARSection />
     </div>
   );
 };
