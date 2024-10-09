@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function useFetch(method, url, key, dynamicKey=null) {
+export default function useFetch(method, url, key, dynamicKey = null) {
   const queryClient = useQueryClient();
 
   const fetchData = async () => {
@@ -41,21 +41,20 @@ export default function useFetch(method, url, key, dynamicKey=null) {
   const deleteData = async (params) => {
     // Convert the `params` object into a query string
     const queryString = new URLSearchParams(params).toString();
-  
+
     // Use the query string in the fetch URL
     const res = await fetch(`${url}?${queryString}`, {
       method: "DELETE",
     });
-  
+
     if (res.ok) queryClient.invalidateQueries();
-  
+
     if (!res.ok) {
       throw new Error("Failed to delete");
     }
-  
+
     return res.json();
   };
-  
 
   const query = useQuery({
     queryKey: [key, dynamicKey].filter(Boolean),
