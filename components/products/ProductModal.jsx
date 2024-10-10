@@ -49,7 +49,7 @@ const ProductModal = ({ product, onClose }) => {
           onClick={handleOutsideClick}
         >
           <motion.div
-            className="relative bg-gray-900 p-6 rounded-3xl shadow-lg w-11/12 max-w-lg lg:max-w-2xl"
+            className="relative bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg w-11/12 max-w-sm sm:max-w-md lg:max-w-2xl mx-auto"
             initial="closed"
             animate="open"
             exit="closed"
@@ -58,12 +58,13 @@ const ProductModal = ({ product, onClose }) => {
           >
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-white"
+              className="absolute top-2 right-2 text-white text-xl focus:outline-none"
             >
               &times;
             </button>
 
-            <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+            <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+              {/* Responsive Image */}
               <Image
                 src={product.images[0]}
                 alt={product.title}
@@ -71,13 +72,13 @@ const ProductModal = ({ product, onClose }) => {
                 height={300}
                 layout="intrinsic"
                 loading="lazy"
-                className="rounded-lg"
+                className="rounded-lg w-full sm:w-auto"
               />
-              <div className="flex flex-col items-start">
-                <h2 className="text-2xl font-bold text-zinc-400 mb-2">
+              <div className="flex flex-col items-start text-left w-full">
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-400 mb-2">
                   {product.title}
                 </h2>
-                <p className="text-lg text-blue-300 mb-2">
+                <p className="text-lg sm:text-xl text-blue-300 mb-2">
                   ${product.price.toFixed(2)}
                 </p>
 
@@ -89,16 +90,17 @@ const ProductModal = ({ product, onClose }) => {
                     ))}
                 </div>
 
-                <p className="text-sm text-gray-400 mb-4">
+                <p className="text-sm sm:text-base text-gray-400 mb-4">
                   {product.description}
                 </p>
+
                 {product.discountPercentage > 0 && (
-                  <div className="text-red-500 text-sm">
+                  <div className="text-red-500 text-sm sm:text-base">
                     Discount: {product.discountPercentage}%
                   </div>
                 )}
 
-                <div className="text-sm text-gray-300 mt-4">
+                <div className="text-sm sm:text-base text-gray-300 mt-4">
                   <p>
                     <strong>Brand:</strong> {product.brand}
                   </p>
@@ -128,15 +130,15 @@ const ProductModal = ({ product, onClose }) => {
                     <strong>Availability:</strong> {product.availabilityStatus}
                   </p>
                 </div>
-                <div className="justify-between space-x-6">
-                  <motion.button className="mt-4 px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.7)] hover:bg-opacity-50 transition duration-300">
+
+                <div className="flex flex-col sm:flex-row justify-between space-x-0 sm:space-x-6 w-full">
+                  <motion.button className="mt-4 px-6 py-2 w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.7)] hover:bg-opacity-50 transition duration-300">
                     Add to Cart
                   </motion.button>
 
-                  {/* Review Product Button */}
                   <motion.button
                     onClick={() => router.push(`/products/${product.id}`)}
-                    className="mt-4 px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.7)] hover:bg-opacity-50 transition duration-300"
+                    className="mt-4 px-6 py-2 w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.7)] hover:bg-opacity-50 transition duration-300"
                   >
                     Review Product
                   </motion.button>

@@ -23,7 +23,7 @@ const ModelSection = () => {
 
   return (
     <div
-      className="flex h-[600px] relative overflow-hidden"
+      className="flex flex-col lg:flex-row h-[600px] relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       {/* Background with gradient and animation */}
@@ -59,9 +59,9 @@ const ModelSection = () => {
       </div>
 
       {/* Right Side for Sale Information */}
-      <div className="flex-1 flex flex-col justify-center items-center p-4 text-white space-y-6 z-10">
+      <div className="flex-1 flex flex-col justify-center items-center p-4 text-white space-y-6 z-10 lg:items-start lg:pl-12">
         <motion.div
-          className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400 glow-text"
+          className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400 glow-text"
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -69,7 +69,7 @@ const ModelSection = () => {
           🚀 Sci-Fi Scooter Sale!
         </motion.div>
         <motion.div
-          className="text-7xl font-extrabold text-red-500 glow-text"
+          className="text-6xl sm:text-7xl font-extrabold text-red-500 glow-text"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -77,7 +77,7 @@ const ModelSection = () => {
           50% OFF!
         </motion.div>
         <motion.p
-          className="text-lg text-gray-300"
+          className="text-base sm:text-lg text-gray-300"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
@@ -85,7 +85,7 @@ const ModelSection = () => {
           Unlock intergalactic adventures with the latest scooter tech.
         </motion.p>
         <motion.button
-          className="mt-6 px-8 py-3 bg-purple-700 hover:bg-purple-600 text-white rounded-full transition duration-300 shadow-lg hover:shadow-purple-500/50"
+          className="mt-6 px-6 sm:px-8 py-3 bg-purple-700 hover:bg-purple-600 text-white rounded-full transition duration-300 shadow-lg hover:shadow-purple-500/50"
           initial={{ scale: 1 }}
           whileHover={{ scale: 1.05, backgroundColor: "#6C63FF" }}
           whileTap={{ scale: 0.95 }}
@@ -96,7 +96,7 @@ const ModelSection = () => {
 
         {/* Futuristic floating sale tag */}
         <motion.div
-          className="absolute top-10 right-10 px-6 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-lg font-bold text-white rounded-full shadow-lg glow-text"
+          className="absolute top-6 right-6 px-4 sm:px-6 py-1 sm:py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-base sm:text-lg font-bold text-white rounded-full shadow-lg glow-text"
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
