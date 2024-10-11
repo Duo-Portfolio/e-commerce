@@ -1,9 +1,12 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "@/init-firebase"; // Firebase initialization
 
 const SignUpForm = () => {
+  const [message, setMessage] = useState(null); // State for success/error message
+  const [isError, setIsError] = useState(false); // State to track if message is an error
   const auth = getAuth(app); // Initialize Firebase auth
 
   async function handleSubmit(e) {
@@ -12,9 +15,12 @@ const SignUpForm = () => {
     const formData = new FormData(e.target);
     const { fullName, email, password, confirmPassword } = Object.fromEntries(formData.entries());
 
+    // Clear any previous message
+    setMessage(null);
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      setIsError(true);
+      setMessage("Passwords do not match.");
       return;
     }
 
@@ -22,11 +28,13 @@ const SignUpForm = () => {
       // Create user with Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("User created:", userCredential.user);
-      alert("Sign up Successful");
+      setIsError(false);
+      setMessage("Sign up successful.");
       // Handle successful signup (e.g., store full name in the database)
     } catch (error) {
       console.error("Error signing up:", error.message);
-      alert("Error signing up: " + error.message);
+      setIsError(true);
+      setMessage("Error signing up: " + error.message);
     }
   }
 
@@ -61,6 +69,18 @@ const SignUpForm = () => {
         <h2 className="relative text-3xl sm:text-4xl font-bold text-center text-white mb-6 tracking-widest uppercase">
           Create Account
         </h2>
+
+        {/* Conditional message rendering */}
+        {message && (
+          <motion.div
+            className={`relative text-center mb-4 text-lg font-semibold ${isError ? "text-red-500" : "text-green-500"}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {message}
+          </motion.div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="relative space-y-6">

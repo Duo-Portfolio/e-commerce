@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/GlobalVideoBackGround.js", "components/products/Products.jsx", "app/products/[productId]/page.jsx", "components/content/ModelSection.jsx", "components/content/CountdownTimer.jsx", "components/content/FeaturedCollection.jsx", "components/sign-up-components/SignUpForm.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/GlobalVideoBackGround.js", "components/products/Products.jsx", "app/products/[productId]/page.jsx", "components/content/ModelSection.jsx", "components/content/CountdownTimer.jsx", "components/content/FeaturedCollection.jsx", "components/sign-up-components/SignUpForm.jsx", "components/sign-in-components/SignInForm.jsx"],
   "exclude": ["node_modules"]
 }
