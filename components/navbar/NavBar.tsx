@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for the menu
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing menu open/close
-
+const router = useRouter();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle function for the menu
 
   return (
@@ -68,6 +69,7 @@ const NavBar = () => {
         <motion.button
           className="px-2 py-1 md:px-4 md:py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-black rounded hover:bg-blue-500 transition duration-300"
           whileHover={{ scale: 1.05 }}
+          onClick={() => router.push('/sign-up')}
         >
           Sign Up
         </motion.button>
