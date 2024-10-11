@@ -22,6 +22,7 @@ const SignUpForm = () => {
       // Create user with Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("User created:", userCredential.user);
+      alert("Sign up Successful");
       // Handle successful signup (e.g., store full name in the database)
     } catch (error) {
       console.error("Error signing up:", error.message);
