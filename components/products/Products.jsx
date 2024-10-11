@@ -52,7 +52,7 @@ const Products = () => {
   };
 
   return (
-    <section className="relative h-full w-full py-12 px-4 sm:px-6 lg:px-8">
+    <section className="relative h-full w-full max-w-full overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 opacity-30 animate-gradient-x"></div>
 
       {/* Animate the heading */}
@@ -173,10 +173,9 @@ const Products = () => {
             onClick={() => setCurrentPage(index + 1)}
             className={`mx-1 sm:mx-2 px-2 sm:px-4 py-2 rounded-lg transition duration-300 transform ${
               currentPage === index + 1
-                ? "bg-gradient-to-r from-indigo-500 to-purple-700 text-black"
-                : "bg-gray-700 text-white hover:bg-indigo-600 hover:text-white"
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                : "bg-gray-700 text-gray-200 hover:bg-gray-600"
             }`}
-            whileHover={{ scale: 1.1 }}
           >
             {index + 1}
           </motion.button>

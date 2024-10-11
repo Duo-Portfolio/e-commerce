@@ -8,6 +8,7 @@ const nextConfig = {
       "media.sketchfab.com",
       "img.pikbest.com",
       "images.starfieldwiki.net", // Ensure this is added
+      "aceternity.com",
     ],
   },
 };

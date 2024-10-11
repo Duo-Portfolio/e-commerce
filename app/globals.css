@@ -3,3 +3,8 @@
 @tailwind utilities;
 
 
+/* Global styles to prevent scrolling */
+html,
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
