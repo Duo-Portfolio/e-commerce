@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
 import useFetch from "../../hooks/useFetch";
-import ProductModal from "./ProductModal"; // Ensure you have this import
+import ProductModal from "./ProductModal";
 
 const Products = () => {
   const [filter, setFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState(null); // State for the selected product
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const productsPerPage = 9;
 
   const { data, isLoading, error } = useFetch(
@@ -44,18 +44,35 @@ const Products = () => {
   );
 
   const handleQuickView = (product) => {
-    setSelectedProduct(product); // Set the selected product for the modal
+    setSelectedProduct(product);
   };
 
   const closeModal = () => {
-    setSelectedProduct(null); // Close the modal
+    setSelectedProduct(null);
+  };
+
+  const handleAddToCart = (product) => {
+    // Get existing cart from local storage or initialize an empty array
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if the product is already in the cart
+    const isProductInCart = existingCart.some((item) => item.id === product.id);
+
+    if (!isProductInCart) {
+      // Add product to cart
+      existingCart.push(product);
+      // Update local storage
+      localStorage.setItem("cart", JSON.stringify(existingCart));
+      alert("Product added to cart!");
+    } else {
+      alert("Product is already in the cart.");
+    }
   };
 
   return (
     <section className="relative h-full w-full max-w-full overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-purple-900 to-blue-900 opacity-30 animate-gradient-x"></div>
 
-      {/* Animate the heading */}
       <motion.h1
         className="text-3xl sm:text-4xl lg:text-5xl text-white text-center mb-8"
         initial={{ opacity: 0, y: -50 }}
@@ -65,7 +82,6 @@ const Products = () => {
         Featured Products
       </motion.h1>
 
-      {/* Animate the filter buttons */}
       <motion.div
         className="flex flex-wrap justify-center mb-12 space-x-2 sm:space-x-4"
         initial={{ opacity: 0 }}
@@ -92,7 +108,6 @@ const Products = () => {
         </button>
       </motion.div>
 
-      {/* Animate the product cards */}
       <motion.div
         className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         initial="hidden"
@@ -147,7 +162,10 @@ const Products = () => {
                   <FaStar key={index} className="text-violet-400 mr-1" />
                 ))}
             </div>
-            <motion.button className="mt-2 sm:mt-4 px-4 sm:px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-md hover:bg-opacity-80 hover:scale-105 transition duration-300">
+            <motion.button
+              onClick={() => handleAddToCart(product)} // Add to cart
+              className="mt-2 sm:mt-4 px-4 sm:px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-700 text-black rounded-lg shadow-md hover:bg-opacity-80 hover:scale-105 transition duration-300"
+            >
               Add to Cart
             </motion.button>
             <motion.button
@@ -160,7 +178,6 @@ const Products = () => {
         ))}
       </motion.div>
 
-      {/* Pagination Controls */}
       <motion.div
         className="flex justify-center mt-6 sm:mt-8"
         initial={{ opacity: 0 }}
@@ -171,18 +188,18 @@ const Products = () => {
           <motion.button
             key={index}
             onClick={() => setCurrentPage(index + 1)}
-            className={`mx-1 sm:mx-2 px-2 sm:px-4 py-2 rounded-lg transition duration-300 transform ${
+            className={`mx-1 sm:mx-2 px-2 sm:px-4 py-2 rounded-lg transition duration-300 ${
               currentPage === index + 1
-                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
-                : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-700 text-white"
             }`}
+            whileHover={{ scale: 1.1 }}
           >
             {index + 1}
           </motion.button>
         ))}
       </motion.div>
 
-      {/* Product Modal */}
       {selectedProduct && (
         <ProductModal product={selectedProduct} onClose={closeModal} />
       )}

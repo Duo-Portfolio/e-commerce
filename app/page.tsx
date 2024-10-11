@@ -10,7 +10,7 @@ import FeaturedSpaceMissions from "@/components/content/FeaturedCollection";
 import { HeroScrollDemo } from "@/components/pre-footer/HeroScrollDemo";
 import { HeroParallaxDemo } from "@/components/pre-footer/HeroParalexDemo";
 import Footer from "@/components/footer/Footer"; // Import the Footer component
-
+import { AuthProvider } from "@/context/AuthContext"; // Import the AuthContext
 
 export default function Home() {
   const queryClient = new QueryClient();
@@ -18,16 +18,18 @@ export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalVideoBackground />
-      <NavBar />
+      <AuthProvider>
+        <NavBar />
+      </AuthProvider>
+
       <Hero />
       <Products />
-      
       {/* Use the new ModelSection component */}
       <ModelSection />
-      <FeaturedSpaceMissions/>
-      <HeroScrollDemo/>
-      <HeroParallaxDemo/>
-      <Footer/>
+      <FeaturedSpaceMissions />
+      <HeroScrollDemo />
+      <HeroParallaxDemo />
+      <Footer />
     </QueryClientProvider>
   );
 }

@@ -1,13 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Import useEffect
 import { motion } from "framer-motion";
-import { FaBars, FaTimes } from "react-icons/fa"; // Importing icons for the menu
+import { FaBars, FaTimes, FaShoppingCart, FaHeart } from "react-icons/fa"; // Importing icons for the menu, cart, and wishlist
 import { useRouter } from "next/navigation";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "@/init-firebase"; // Firebase initialization
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing menu open/close
-const router = useRouter();
+  const [user, setUser] = useState(null); // State for user authentication
+  const router = useRouter();
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen); // Toggle function for the menu
+
+  const auth = getAuth(app); // Use the initialized Firebase app here
+
+  // Check for user authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, [auth]);
+
+  const handleSignOut = () => {
+    auth.signOut(); // Sign out the user
+  };
 
   return (
     <motion.nav
@@ -31,7 +48,8 @@ const router = useRouter();
           className="text-3xl focus:outline-none"
           whileHover={{ scale: 1.1 }}
         >
-          {isMenuOpen ? <FaTimes /> : <FaBars />} {/* Toggle between open and close icons */}
+          {isMenuOpen ? <FaTimes /> : <FaBars />}{" "}
+          {/* Toggle between open and close icons */}
         </motion.button>
       </div>
 
@@ -42,10 +60,19 @@ const router = useRouter();
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.6 }}
       >
-        {["Home", "About", "Galactic Goods", "Starship Registration", "Cosmic Blog"].map((item, index) => (
+        {[
+          "Home",
+          "About",
+          "Galactic Goods",
+          "Starship Registration",
+          "Cosmic Blog",
+        ].map((item, index) => (
           <motion.li
             key={index}
-            whileHover={{ scale: 1.1, textShadow: "0px 0px 8px rgba(255,255,255,0.8)" }}
+            whileHover={{
+              scale: 1.1,
+              textShadow: "0px 0px 8px rgba(255,255,255,0.8)",
+            }}
             className="cursor-pointer hover:text-blue-400"
           >
             {item}
@@ -53,33 +80,54 @@ const router = useRouter();
         ))}
       </motion.ul>
 
-      {/* Authentication Area for larger screens */}
+      {/* Authentication Area - visible on all screen sizes */}
       <motion.div
-        className="hidden sm:flex space-x-2 md:space-x-4"
+        className="flex space-x-2 md:space-x-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
       >
-        <motion.button
-          className="px-2 py-1 md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
-          whileHover={{ scale: 1.05 }}
-        >
-          Sign In
-        </motion.button>
-        <motion.button
-          className="px-2 py-1 md:px-4 md:py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-black rounded hover:bg-blue-500 transition duration-300"
-          whileHover={{ scale: 1.05 }}
-          onClick={() => router.push('/sign-up')}
-        >
-          Sign Up
-        </motion.button>
-
-        <motion.button
-          className="px-2 py-1 md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
-          whileHover={{ scale: 1.05 }}
-        >
-          Dashboard
-        </motion.button>
+        {user ? (
+          <>
+            <motion.button
+              className="px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
+              whileHover={{ scale: 1.05 }}
+              onClick={handleSignOut} // Sign out button
+            >
+              Sign Out
+            </motion.button>
+            <motion.button
+              className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaShoppingCart />
+              <span>Cart</span>
+            </motion.button>
+            <motion.button
+              className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaHeart />
+              <span>Wishlist</span>
+            </motion.button>
+          </>
+        ) : (
+          <>
+            <motion.button
+              className="px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              Sign In
+            </motion.button>
+            <motion.button
+              className="px-2 py-1 text-sm md:px-4 md:py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-black rounded hover:bg-blue-500 transition duration-300"
+              whileHover={{ scale: 1.05 }}
+              onClick={() => router.push("/sign-up")}
+            >
+              Sign Up
+            </motion.button>
+          </>
+        )}
       </motion.div>
 
       {/* Mobile menu for small screens */}
@@ -97,10 +145,19 @@ const router = useRouter();
           animate={{ opacity: isMenuOpen ? 1 : 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
         >
-          {["Home", "About", "Galactic Goods", "Starship Registration", "Cosmic Blog"].map((item, index) => (
+          {[
+            "Home",
+            "About",
+            "Galactic Goods",
+            "Starship Registration",
+            "Cosmic Blog",
+          ].map((item, index) => (
             <motion.li
               key={index}
-              whileHover={{ scale: 1.1, textShadow: "0px 0px 8px rgba(255,255,255,0.8)" }}
+              whileHover={{
+                scale: 1.1,
+                textShadow: "0px 0px 8px rgba(255,255,255,0.8)",
+              }}
               className="cursor-pointer hover:text-blue-400"
               onClick={toggleMenu} // Close the menu when clicking on a link
             >
@@ -108,32 +165,6 @@ const router = useRouter();
             </motion.li>
           ))}
         </motion.ul>
-
-        {/* Authentication Buttons */}
-        <motion.div className="flex flex-col items-center space-y-4 py-4">
-          <motion.button
-            className="px-4 py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
-            whileHover={{ scale: 1.05 }}
-            onClick={toggleMenu} // Close the menu on button click
-          >
-            Sign In
-          </motion.button>
-          <motion.button
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-black rounded hover:bg-blue-500 transition duration-300"
-            whileHover={{ scale: 1.05 }}
-            onClick={toggleMenu} // Close the menu on button click
-          >
-            Sign Up
-          </motion.button>
-
-          <motion.button
-            className="px-4 py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
-            whileHover={{ scale: 1.05 }}
-            onClick={toggleMenu} // Close the menu on button click
-          >
-            Dashboard
-          </motion.button>
-        </motion.div>
       </motion.div>
     </motion.nav>
   );
