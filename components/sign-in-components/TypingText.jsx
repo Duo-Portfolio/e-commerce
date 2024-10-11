@@ -1,23 +1,7 @@
-import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Typewriter } from 'react-simple-typewriter'
 
 const TypingText = () => {
-  const text = "Your journey into the cosmos of shopping begins now!"; // Define the text directly
-  const [displayText, setDisplayText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        setDisplayText((prev) => prev + text[index]);
-        index += 1;
-      } else {
-        clearInterval(interval); // Stop when done
-      }
-    }, 100); // Adjust typing speed here (milliseconds)
-
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [text]);
 
   return (
     <motion.div
@@ -29,9 +13,13 @@ const TypingText = () => {
       <h1 className="mb-4 text-2xl md:text-3xl lg:text-4xl font-bold">
         Welcome to the Universe of Shopping!
       </h1>
-      <p className="text-lg md:text-xl lg:text-2xl text-gradient">
-        {displayText}
-      </p>
+        <div className="text-lg md:text-xl lg:text-2xl text-gradient">
+          <Typewriter
+          words={["Your journey into the cosmos of shopping begins now!"]}
+          typeSpeed={50} // How fast characters are typed (lower is faster)
+          hideCursorAfterText={true} // Hide cursor after text appear
+        />
+        </div>
     </motion.div>
   );
 };
