@@ -18,8 +18,11 @@ const images = [
   ];
 
 
-export async function GET() {
+  export async function GET(req) {
     try {
+        const url = new URL(req.url);
+        const searchParams = new URLSearchParams(url.searchParams);
+
         // Define the path to the JSON file
         const filePath = path.join(process.cwd(), 'data', 'products.json');
 
@@ -29,14 +32,25 @@ export async function GET() {
         // Parse the JSON data
         const products = JSON.parse(fileData);
 
+        // If no products are found, send a 404 response
+        if (products.length === 0) {
+            return NextResponse.json({ message: "No products found" }, { status: 404 });
+        }
+
+        if (searchParams.has("recommended")) {
+            // Shuffle the products array and pick 5 random products
+            const shuffled = products.products.sort(() => 0.5 - Math.random());
+            const recommendedProducts = shuffled.slice(0, 5);
+
+            // Return the 5 random products
+            return NextResponse.json(recommendedProducts, { status: 200 });
+        }
+
+        
         //images.forEach((img, i) => products.products[i].images[0] = img);
         //await fs.writeFile(filePath, JSON.stringify(products, null, 2), 'utf-8')
 
-        // If no products are found, send a 404 response
-        if (products.length === 0) 
-            return NextResponse.json({ message: "No products found" }, { status: 404 });
-
-        // Success response
+        // Return all products if 'recommended' is not true
         return NextResponse.json(products, { status: 200 });
 
     } catch (error) {
