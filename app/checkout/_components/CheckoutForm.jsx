@@ -2,6 +2,7 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext"; // Import the hook
+import { motion } from "framer-motion";
 
 const CheckoutForm = ({ amount }) => {
   const stripe = useStripe();
@@ -17,12 +18,9 @@ const CheckoutForm = ({ amount }) => {
       return;
     }
 
-    // Get cart items from local storage
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Create an order with the cart items
     const order = {
-      userId: user.id, // Assuming user has an id
+      userId: user.id,
       items: cartItems.map((item) => ({
         id: item.id,
         title: item.title,
@@ -34,20 +32,15 @@ const CheckoutForm = ({ amount }) => {
         category: item.category,
         description: item.description,
         images: item.images,
-        // Add more fields as necessary
       })),
       amount: amount,
       date: new Date().toISOString(),
     };
 
-    // Store the order in local storage
     localStorage.setItem("order", JSON.stringify(order));
-
-    // Clear the cart from local storage
     localStorage.removeItem("cart");
 
     sendEmail();
-    // Submit the payment
     const { error: submitError } = await elements.submit();
     if (submitError) {
       const messageContainer = document.querySelector("#error-message");
@@ -72,13 +65,12 @@ const CheckoutForm = ({ amount }) => {
     });
 
     if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
       console.log(result.error.message);
     } else {
-      // Successful payment
       console.log("Payment successful!");
     }
   };
+
   const sendEmail = async () => {
     const res = await fetch("api/send-email", {
       method: "post",
@@ -86,15 +78,44 @@ const CheckoutForm = ({ amount }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mx-4 md:mx-[320px] mt-12">
-        <PaymentElement />
-        {errorMessage && <div id="error-message">{errorMessage}</div>}
-        <button className="w-full mt-4 p-2 text-white rounded-md bg-cyan-400">
-          Submit
-        </button>
+    <motion.form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center justify-center"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+    >
+      <div className="mx-4 md:mx-[320px] mt-12 w-[500px] space-y-6">
+        <motion.div
+          className="p-6 rounded-lg shadow-lg bg-gradient-to-r from-indigo-900 via-purple-900 to-gray-900 text-white"
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h2 className="text-xl font-bold text-center mb-4">
+            Complete Your Payment
+          </h2>
+          <PaymentElement className="mb-4" />
+          {errorMessage && (
+            <div id="error-message" className="text-red-500 text-sm">
+              {errorMessage}
+            </div>
+          )}
+        </motion.div>
+
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: "#00E0FF",
+            boxShadow: "0px 0px 15px #00E0FF",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full mt-4 p-2 text-white rounded-md bg-gradient-to-r from-violet-800 to-blue-800 shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+        >
+          Submit Payment
+        </motion.button>
       </div>
-    </form>
+    </motion.form>
   );
 };
 

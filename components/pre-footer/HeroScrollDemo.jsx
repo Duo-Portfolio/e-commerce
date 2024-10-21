@@ -17,8 +17,8 @@ export function HeroScrollDemo() {
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mt-4 text-center">
-              Dive into a galaxy of exclusive space-themed products, where each click 
-              takes you deeper into the stars!
+              Dive into a galaxy of exclusive space-themed products, where each
+              click takes you deeper into the stars!
             </p>
           </div>
         }

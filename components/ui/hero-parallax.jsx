@@ -10,9 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export const HeroParallax = ({
-  products,
-}) => {
+export const HeroParallax = ({ products }) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
   const thirdRow = products.slice(10, 15);
@@ -100,21 +98,17 @@ export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-10 md:py-20 w-full left-0 top-0 px-4">
       <h1 className="text-3xl md:text-6xl font-bold dark:text-white text-violet-600 animate-pulse">
-        The Ultimate <br /> development studio
+        The Ultimate <br /> FUTURISTIC SPACE THEME
       </h1>
       <p className="max-w-2xl text-base md:text-lg mt-6 dark:text-neutral-200 text-white">
-        We build beautiful products with the latest technologies and frameworks.
-        We are a team of passionate developers and designers that love to build
-        amazing products.
+        THIS WEBSITE WAS INSPIRED BY SOME OF THESE WEBSITES, THE FUTURE OF THE
+        WEB DEVELOPMENT DESIGN, FUTURISTIC BEAUTIFUL THEMES.
       </p>
     </div>
   );
 };
 
-export const ProductCard = ({
-  product,
-  translate,
-}) => {
+export const ProductCard = ({ product, translate }) => {
   return (
     <motion.div
       style={{
