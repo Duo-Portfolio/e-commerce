@@ -5,7 +5,7 @@ import { FaBars, FaTimes, FaShoppingCart, FaHeart } from "react-icons/fa"; // Im
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import app from "../../init-firebase"; // Firebase initialization
-
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing menu open/close
   const [user, setUser] = useState(null); // State for user authentication
@@ -37,6 +37,7 @@ const NavBar = () => {
       <motion.div
         className="text-xl sm:text-2xl font-bold cursor-pointer bg-gradient-to-r from-gray-500 via-purple-700 to-gray-900 bg-clip-text text-transparent"
         whileHover={{ scale: 1.1, rotate: 15 }}
+        onClick={() => router.push("/")}
       >
         Space E-Commerce
       </motion.div>
@@ -99,6 +100,7 @@ const NavBar = () => {
             <motion.button
               className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
               whileHover={{ scale: 1.05 }}
+              onClick={() => router.push("/cart")}
             >
               <FaShoppingCart />
               <span>Cart</span>
@@ -106,9 +108,10 @@ const NavBar = () => {
             <motion.button
               className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
               whileHover={{ scale: 1.05 }}
+              onClick={() => router.push("/orders")}
             >
-              <FaHeart />
-              <span>Wishlist</span>
+              <WorkspacePremiumIcon />
+              <span>MY ORDERS</span>
             </motion.button>
           </>
         ) : (

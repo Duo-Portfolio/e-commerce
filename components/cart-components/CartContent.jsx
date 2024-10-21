@@ -84,7 +84,7 @@ const CartContent = () => {
 
   return (
     <motion.div
-      className="bg-gradient-to-r from-gray-800 via-blue-900 to-purple-900 text-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto border border-blue-600"
+      className="bg-gradient-to-r from-gray-800 via-blue-900 to-purple-900 text-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto border border-blue-600"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

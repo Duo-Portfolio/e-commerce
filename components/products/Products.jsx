@@ -10,7 +10,7 @@ const Products = () => {
   const [filter, setFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const productsPerPage = 9;
+  const productsPerPage = 6;
 
   const { data, isLoading, error } = useFetch(
     "GET",
