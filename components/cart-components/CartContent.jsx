@@ -4,9 +4,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import RecommendedProducts from "./RecommendedProducts"; // Import the recommended products component
 import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext"; // Import the hook
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const CartContent = () => {
   const [cart, setCart] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State to manage snackbar visibility
+  const { user } = useAuth(); // Get the current user
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
@@ -59,11 +64,27 @@ const CartContent = () => {
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
+
   const router = useRouter();
+
+  const handleProceedToCheckout = () => {
+    console.log("Current user:", user); // Log user state for debugging
+    if (!user) {
+      console.log("User not logged in, showing snackbar");
+      setSnackbarOpen(true); // Show snackbar if not logged in
+    } else {
+      console.log("Proceeding to checkout with amount:", calculateTotalPrice());
+      router.push(`./checkout?amount=${calculateTotalPrice()}`);
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false); // Close snackbar
+  };
 
   return (
     <motion.div
-      className="bg-gradient-to-r from-gray-800 via-blue-900 to-purple-900 text-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto border border-blue-600" // Increased max-width to max-w-2xl
+      className="bg-gradient-to-r from-gray-800 via-blue-900 to-purple-900 text-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto border border-blue-600"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -71,6 +92,16 @@ const CartContent = () => {
       <h2 className="text-3xl font-bold mb-4 border-b border-blue-500 pb-2">
         Your Cart
       </h2>
+
+      {/* User greeting and cart content */}
+      <div>
+        {user ? (
+          <p className="mb-4">Welcome, {user.email}!</p>
+        ) : (
+          <p className="mb-4">Please log in to proceed to checkout.</p>
+        )}
+      </div>
+
       {cart.length > 0 ? (
         cart.map((item) => (
           <motion.div
@@ -82,8 +113,6 @@ const CartContent = () => {
             transition={{ duration: 0.2 }}
           >
             <div className="relative w-32 h-32 mr-4">
-              {" "}
-              {/* Increased width and height for the image */}
               <Image
                 src={item.thumbnail}
                 alt={item.title}
@@ -151,9 +180,7 @@ const CartContent = () => {
           </button>
           <motion.button
             className="w-1/2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300 shadow-lg hover:shadow-xl"
-            onClick={() =>
-              router.push(`./checkout?amount=${calculateTotalPrice()}`)
-            }
+            onClick={handleProceedToCheckout}
           >
             Proceed to Checkout
           </motion.button>
@@ -162,6 +189,22 @@ const CartContent = () => {
 
       {/* Recommended Products Section */}
       <RecommendedProducts cartItems={cart} />
+
+      {/* Snackbar for login prompt */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }} // Changed to show at the top
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="warning"
+          sx={{ width: "100%" }}
+        >
+          Please login to proceed to checkout.
+        </Alert>
+      </Snackbar>
     </motion.div>
   );
 };

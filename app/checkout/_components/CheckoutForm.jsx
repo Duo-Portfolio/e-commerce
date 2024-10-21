@@ -5,8 +5,6 @@ import { useState } from "react";
 const CheckoutForm = ({ amount }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState();
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
