@@ -1,8 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signOut } from "firebase/auth";
-import app from "@/init-firebase"; // Firebase initialization
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth";
+import app from "../../init-firebase"; // Firebase initialization
 import SpaceModelCanvas from "./SpaceModelCanvas"; // Import your 3D model component
 import TypingText from "./TypingText"; // Import your typing effect component
 
@@ -55,9 +61,13 @@ export default function SignInForm() {
     setResetEmailSent(false); // Reset status when trying to log in
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       setUser(userCredential.user); // Set the logged-in user
-      setError(''); // Clear any error on successful login
+      setError(""); // Clear any error on successful login
     } catch (error) {
       setError(error.message); // Display error message
     } finally {
@@ -102,7 +112,9 @@ export default function SignInForm() {
 
         {user ? (
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Welcome, {user.email}!</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+              Welcome, {user.email}!
+            </h2>
             <motion.button
               onClick={handleLogout}
               className="relative w-full mt-8 py-3 px-6 text-white font-bold uppercase rounded-lg shadow-xl bg-gradient-to-r from-red-500 to-red-700 hover:from-red-400 hover:to-red-600"
@@ -140,23 +152,36 @@ export default function SignInForm() {
             )}
 
             <form onSubmit={handleLogin} className="relative space-y-6">
-              {[{ placeholder: "Email", type: "text", value: email, setValue: setEmail },
-              { placeholder: "Password", type: "password", value: password, setValue: setPassword }]
-                .map((field, index) => (
-                  <InputField
-                    key={index}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={field.value}
-                    setValue={field.setValue}
-                    index={index}
-                  />
-                ))}
+              {[
+                {
+                  placeholder: "Email",
+                  type: "text",
+                  value: email,
+                  setValue: setEmail,
+                },
+                {
+                  placeholder: "Password",
+                  type: "password",
+                  value: password,
+                  setValue: setPassword,
+                },
+              ].map((field, index) => (
+                <InputField
+                  key={index}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  setValue={field.setValue}
+                  index={index}
+                />
+              ))}
 
               <motion.button
                 type="submit"
                 className={`relative w-full mt-8 py-3 px-6 text-white font-bold uppercase rounded-lg shadow-xl transition-transform duration-300 hover:scale-105 ${
-                  loading ? "bg-gray-600 cursor-not-allowed" : "bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-500 hover:to-purple-500"
+                  loading
+                    ? "bg-gray-600 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-500 hover:to-purple-500"
                 }`}
                 whileHover={!loading ? { scale: 1.05 } : {}}
                 disabled={loading}

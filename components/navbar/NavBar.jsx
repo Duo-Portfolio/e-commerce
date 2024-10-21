@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FaBars, FaTimes, FaShoppingCart, FaHeart } from "react-icons/fa"; // Importing icons for the menu, cart, and wishlist
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import app from "@/init-firebase"; // Firebase initialization
+import app from "../../init-firebase"; // Firebase initialization
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for managing menu open/close

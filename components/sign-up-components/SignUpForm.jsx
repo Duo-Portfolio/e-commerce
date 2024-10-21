@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "@/init-firebase"; // Firebase initialization
+import app from "../../init-firebase"; // Firebase initialization
 
 const SignUpForm = () => {
   const [message, setMessage] = useState(null); // State for success/error message
@@ -13,7 +13,9 @@ const SignUpForm = () => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const { fullName, email, password, confirmPassword } = Object.fromEntries(formData.entries());
+    const { fullName, email, password, confirmPassword } = Object.fromEntries(
+      formData.entries()
+    );
 
     // Clear any previous message
     setMessage(null);
@@ -26,7 +28,11 @@ const SignUpForm = () => {
 
     try {
       // Create user with Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log("User created:", userCredential.user);
       setIsError(false);
       setMessage("Sign up successful.");
@@ -73,7 +79,9 @@ const SignUpForm = () => {
         {/* Conditional message rendering */}
         {message && (
           <motion.div
-            className={`relative text-center mb-4 text-lg font-semibold ${isError ? "text-red-500" : "text-green-500"}`}
+            className={`relative text-center mb-4 text-lg font-semibold ${
+              isError ? "text-red-500" : "text-green-500"
+            }`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -130,7 +138,9 @@ const SignUpForm = () => {
               required
               minLength={6}
               className="w-full bg-transparent border-b-2 border-gray-600 py-3 px-2 text-white placeholder-gray-400 outline-none focus:border-blue-500 transition-colors duration-300"
-              onFocus={(e) => e.target.setAttribute("autocomplete", "new-password")}
+              onFocus={(e) =>
+                e.target.setAttribute("autocomplete", "new-password")
+              }
             />
             <motion.span
               className="absolute right-0 bottom-0 w-5 h-5 bg-gradient-to-r from-blue-500 to-purple-700 rounded-full shadow-lg"
@@ -150,7 +160,9 @@ const SignUpForm = () => {
               required
               minLength={6}
               className="w-full bg-transparent border-b-2 border-gray-600 py-3 px-2 text-white placeholder-gray-400 outline-none focus:border-blue-500 transition-colors duration-300"
-              onFocus={(e) => e.target.setAttribute("autocomplete", "new-password")}
+              onFocus={(e) =>
+                e.target.setAttribute("autocomplete", "new-password")
+              }
             />
             <motion.span
               className="absolute right-0 bottom-0 w-5 h-5 bg-gradient-to-r from-blue-500 to-purple-700 rounded-full shadow-lg"
@@ -168,7 +180,6 @@ const SignUpForm = () => {
             Sign Up
           </motion.button>
         </form>
-
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <motion.div

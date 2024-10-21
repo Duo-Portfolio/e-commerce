@@ -1,13 +1,12 @@
-// RecommendedProducts.jsx
 import React from "react";
 import Image from "next/image";
 import useFetch from "../../hooks/useFetch";
 
 const RecommendedProducts = ({ cartItems }) => {
-  // Fetch products from the API
+  // Fetch recommended products from the API
   const { data, isLoading, error } = useFetch(
     "GET",
-    "/api/products",
+    "/api/products?recommended",
     "products"
   );
 
@@ -26,16 +25,9 @@ const RecommendedProducts = ({ cartItems }) => {
     cartItems.some((cartItem) => product.category === cartItem.category)
   );
 
-  // If no recommendations, show random products
-  const showRandomRecommendations = (num = 3) => {
-    const shuffledProducts = data.sort(() => 0.5 - Math.random());
-    return shuffledProducts.slice(0, num);
-  };
-
+  // If no matching recommendations, show all recommended products
   const productsToDisplay =
-    recommendedProducts.length > 0
-      ? recommendedProducts
-      : showRandomRecommendations();
+    recommendedProducts.length > 0 ? recommendedProducts : data;
 
   return (
     <div className="mt-6">

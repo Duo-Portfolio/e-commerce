@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import RecommendedProducts from "./RecommendedProducts"; // Import the recommended products component
+import { useRouter } from "next/navigation";
 
 const CartContent = () => {
   const [cart, setCart] = useState([]);
@@ -58,6 +59,7 @@ const CartContent = () => {
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
+  const router = useRouter();
 
   return (
     <motion.div
@@ -149,7 +151,9 @@ const CartContent = () => {
           </button>
           <motion.button
             className="w-1/2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300 shadow-lg hover:shadow-xl"
-            onClick={() => alert("Proceeding to checkout...")}
+            onClick={() =>
+              router.push(`./checkout?amount=${calculateTotalPrice()}`)
+            }
           >
             Proceed to Checkout
           </motion.button>
