@@ -60,7 +60,7 @@ const CheckoutForm = ({ amount }) => {
       clientSecret,
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/payment-confirm",
+        return_url: "https://duoe-portfolio-e-commerce.vercel.app/payment-confirm",
       },
     });
 
