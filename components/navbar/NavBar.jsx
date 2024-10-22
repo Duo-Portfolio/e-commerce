@@ -97,14 +97,7 @@ const NavBar = () => {
             >
               Sign Out
             </motion.button>
-            <motion.button
-              className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
-              whileHover={{ scale: 1.05 }}
-              onClick={() => router.push("/cart")}
-            >
-              <FaShoppingCart />
-              <span>Cart</span>
-            </motion.button>
+
             <motion.button
               className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
               whileHover={{ scale: 1.05 }}
@@ -116,6 +109,14 @@ const NavBar = () => {
           </>
         ) : (
           <>
+            <motion.button
+              className="flex items-center space-x-2 px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
+              whileHover={{ scale: 1.05 }}
+              onClick={() => router.push("/cart")}
+            >
+              <FaShoppingCart />
+              <span>Cart</span>
+            </motion.button>
             <motion.button
               className="px-2 py-1 text-sm md:px-4 md:py-2 border border-blue-400 text-blue-400 rounded hover:bg-gradient-to-r from-blue-500 to-blue-300 hover:text-black transition duration-300"
               whileHover={{ scale: 1.05 }}
