@@ -1,29 +1,31 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import app from '../../../../init-firebase'; // Import your Firebase app
+
+// Initialize Firestore
+const db = getFirestore(app);
 
 export async function GET(req, { params }) {
   try {
     const { productId } = params;
 
-    // Define the path to the JSON file
-    const filePath = path.join(process.cwd(), "data", "products.json");
+    // Reference to the specific product document in Firestore
+    const productDocRef = doc(db, 'products', productId); // Ensure 'products' matches your collection name
 
-    // Read the file asynchronously
-    const fileData = await fs.readFile(filePath, "utf-8");
+    // Fetch the product document
+    const productDoc = await getDoc(productDocRef);
 
-    // Parse the JSON data
-    const products = JSON.parse(fileData);
+    // Check if the document exists
+    if (!productDoc.exists()) {
+      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+    }
 
-    // Success response
-    return NextResponse.json(
-      products.products.find((p) => p.id == productId),
-      { status: 200 }
-    );
+    // Success response with product data
+    return NextResponse.json({ id: productDoc.id, ...productDoc.data() }, { status: 200 });
   } catch (error) {
-    console.error("Error reading JSON file: ", error);
+    console.error("Error fetching product from Firestore: ", error);
 
-    // Handle file or JSON parsing errors
+    // Handle errors
     return NextResponse.json(
       { message: "An error occurred", error: error.message },
       { status: 500 }

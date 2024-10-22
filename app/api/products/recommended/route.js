@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import app from '../../../init-firebase'; // Import your Firebase app
+import app from '../../../../init-firebase'; // Import your Firebase app
 
 // Initialize Firestore
 const db = getFirestore(app);
@@ -19,8 +19,12 @@ export async function GET(req) {
       return NextResponse.json({ message: "No products found" }, { status: 404 });
     }
 
-    // Return all products if 'recommended' is not present
-    return NextResponse.json({products}, { status: 200 });
+    // Shuffle the products array and pick 5 random products
+    const shuffled = products.sort(() => 0.5 - Math.random());
+    const recommendedProducts = shuffled.slice(0, 5);
+    
+    // Return the 5 random products
+    return NextResponse.json(recommendedProducts, { status: 200 });
 
   } catch (error) {
     console.error("Error fetching products from Firestore: ", error);

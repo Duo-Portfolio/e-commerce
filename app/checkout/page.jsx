@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { AuthProvider } from "../../context/AuthContext";
 import NavBar from "../../components/navbar/NavBar";
 import { motion } from "framer-motion";
+import { Suspense } from "react";
 
 // Load Stripe with your public key
 const stripePromise = loadStripe(
@@ -13,6 +14,14 @@ const stripePromise = loadStripe(
 );
 
 const Checkout = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
+  );
+};
+
+const CheckoutContent = () => {
   const searchParams = useSearchParams();
   const amount = Number(searchParams.get("amount")) || 0;
 

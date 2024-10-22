@@ -6,7 +6,7 @@ const RecommendedProducts = ({ cartItems }) => {
   // Fetch recommended products from the API
   const { data, isLoading, error } = useFetch(
     "GET",
-    "/api/products?recommended",
+    "/api/products/recommended",
     "products"
   );
 
